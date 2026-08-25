@@ -1,0 +1,76 @@
+.wrap {
+  position: relative;
+  width: min(460px, 88vw);
+  margin-inline: auto;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.ring {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+.coreLabel {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  letter-spacing: 0.14em;
+  fill: var(--color-fg);
+}
+
+.coreDim {
+  font-size: 11px;
+  opacity: 0.6;
+  letter-spacing: 0.3em;
+}
+
+.dot {
+  fill: var(--color-bg-alt);
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+.nodeLabel {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  fill: var(--color-fg);
+}
+
+/* Ambient orbit rotation — GPU-composited transforms only */
+.spinSlow,
+.spinSlowRev {
+  transform-origin: 230px 230px;
+}
+
+.spinSlow {
+  animation: orbitSpin 46s linear infinite;
+}
+
+.spinSlowRev {
+  animation: orbitSpinRev 58s linear infinite;
+}
+
+@keyframes orbitSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitSpinRev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinSlow,
+  .spinSlowRev {
+    animation: none;
+  }
+}

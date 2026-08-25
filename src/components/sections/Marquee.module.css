@@ -1,0 +1,47 @@
+.marquee {
+  border-block: 1px solid var(--line);
+  padding: 22px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.track {
+  display: inline-flex;
+  animation: scrollX var(--duration-marquee) linear infinite;
+  will-change: transform;
+}
+
+.half {
+  display: inline-flex;
+  gap: 3.5rem;
+  padding-right: 3.5rem;
+}
+
+.word {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: var(--color-muted);
+}
+
+.word:nth-child(odd) {
+  font-style: normal;
+  color: var(--color-fg);
+}
+
+.dot {
+  color: var(--color-accent);
+  align-self: center;
+}
+
+@keyframes scrollX {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}

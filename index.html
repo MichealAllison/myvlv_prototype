@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VivaLaVida — Prototype v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ====== PLACEHOLDER BRAND PALETTE — swap these 4 lines once you send hex codes/logo ====== */
+  :root{
+    --bg:#0c0d10;
+    --bg-alt:#15171c;
+    --fg:#f5f4f0;
+    --muted:#9a9ca6;
+    --accent:#c9a227;   /* placeholder gold — swap for VLV primary */
+    --accent-2:#4c6ef5; /* placeholder blue — swap for VLV secondary */
+    --line: rgba(245,244,240,0.13);
+    --line-strong: rgba(245,244,240,0.28);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:'Inter', sans-serif; font-weight:400;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--accent); color:#0c0d10; }
+  h1,h2,h3{ font-family:'Fraunces', serif; font-weight:400; letter-spacing:-0.01em; }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.18em;
+    text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:''; width:16px; height:1px; background:var(--accent); display:inline-block; }
+
+  /* ===== reveal (scroll) ===== */
+  .reveal{ opacity:0; transform:translateY(30px); transition:opacity 0.9s cubic-bezier(.16,.84,.44,1), transform 0.9s cubic-bezier(.16,.84,.44,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  .reveal-stagger > *{ opacity:0; transform:translateY(26px); transition:opacity 0.8s cubic-bezier(.16,.84,.44,1), transform 0.8s cubic-bezier(.16,.84,.44,1); }
+  .reveal-stagger.in > *{ opacity:1; transform:translateY(0); }
+  .reveal-stagger.in > *:nth-child(1){ transition-delay:.02s; }
+  .reveal-stagger.in > *:nth-child(2){ transition-delay:.12s; }
+  .reveal-stagger.in > *:nth-child(3){ transition-delay:.22s; }
+  .reveal-stagger.in > *:nth-child(4){ transition-delay:.32s; }
+  .reveal-stagger.in > *:nth-child(5){ transition-delay:.42s; }
+  .reveal-stagger.in > *:nth-child(6){ transition-delay:.52s; }
+
+  /* ===== hero load-in (fires automatically, no scroll needed) ===== */
+  .load-in{ opacity:0; transform:translateY(24px); transition:opacity 1s cubic-bezier(.16,.84,.44,1), transform 1s cubic-bezier(.16,.84,.44,1); }
+  .load-in.go{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal, .reveal-stagger > *, .load-in, .float, .spin-slow, .spin-slow-rev, .marquee-track{ transition:none !important; animation:none !important; opacity:1 !important; transform:none !important; }
+    html{ scroll-behavior:auto; }
+  }
+
+  /* ===== floating ambient shapes — always visibly moving ===== */
+  .float{ position:absolute; border-radius:50%; filter:blur(60px); opacity:0.35; pointer-events:none; }
+  .float-1{ width:340px; height:340px; background:var(--accent); top:-60px; left:-80px; animation:drift1 14s ease-in-out infinite; }
+  .float-2{ width:280px; height:280px; background:var(--accent-2); bottom:-60px; right:-60px; animation:drift2 17s ease-in-out infinite; }
+  @keyframes drift1{ 0%,100%{ transform:translate(0,0);} 50%{ transform:translate(40px,50px);} }
+  @keyframes drift2{ 0%,100%{ transform:translate(0,0);} 50%{ transform:translate(-50px,-30px);} }
+
+  /* ===== NAV ===== */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:150;
+    display:flex; align-items:center; justify-content:space-between; padding:20px 5vw;
+    backdrop-filter:blur(10px);
+    background:linear-gradient(to bottom, rgba(12,13,16,0.9), rgba(12,13,16,0));
+  }
+  .logo{ display:flex; align-items:center; gap:9px; font-family:'Fraunces', serif; font-size:19px; }
+  .logo-mark{ width:9px; height:9px; border-radius:50%; background:var(--accent); }
+  .logo span{ color:var(--accent); }
+  .nav-links{ display:flex; gap:36px; font-size:14px; color:var(--muted); }
+  .nav-links a{ position:relative; padding-bottom:3px; transition:color .3s; }
+  .nav-links a:hover{ color:var(--fg); }
+  .nav-links a::after{ content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--accent); transition:width .35s cubic-bezier(.16,.84,.44,1); }
+  .nav-links a:hover::after{ width:100%; }
+  .nav-cta{ font-size:13px; border:1px solid var(--line-strong); padding:10px 20px; border-radius:100px; transition:all .35s ease; white-space:nowrap; }
+  .nav-cta:hover{ background:var(--accent); border-color:var(--accent); color:#0c0d10; }
+  @media (max-width:900px){ .nav-links{ display:none; } }
+
+  /* ===== HERO ===== */
+  .hero{ min-height:100vh; display:flex; align-items:center; position:relative; padding:0 5vw; overflow:hidden; }
+  .hero-inner{ display:grid; grid-template-columns:1.1fr .9fr; align-items:center; gap:40px; width:100%; padding-top:90px; position:relative; z-index:2; }
+  .hero h1{ font-size:clamp(42px,6vw,84px); line-height:1.03; }
+  .hero h1 em{ font-style:italic; color:var(--accent); font-weight:400; }
+  .hero p{ margin-top:24px; max-width:440px; color:var(--muted); font-size:16px; line-height:1.65; }
+  .hero-actions{ margin-top:38px; display:flex; align-items:center; gap:28px; flex-wrap:wrap; }
+  .btn-primary{
+    background:var(--fg); color:#0c0d10; padding:15px 30px; border-radius:100px; font-size:14px; font-weight:500;
+    display:inline-flex; align-items:center; gap:10px; transition:transform .4s cubic-bezier(.16,.84,.44,1), background .3s; border:none; cursor:pointer;
+  }
+  .btn-primary:hover{ transform:translateY(-3px); background:var(--accent); }
+  .btn-ghost{ font-size:14px; color:var(--muted); border-bottom:1px solid var(--line-strong); padding-bottom:3px; transition:color .3s,border-color .3s; }
+  .btn-ghost:hover{ color:var(--fg); border-color:var(--accent); }
+
+  .orbit-wrap{ position:relative; height:460px; display:flex; align-items:center; justify-content:center; }
+  .orbit-svg{ width:100%; height:100%; max-width:440px; }
+  .orbit-ring{ fill:none; stroke:var(--line); stroke-width:1; }
+  .orbit-core-label{ font-family:'IBM Plex Mono'; font-size:10px; letter-spacing:.1em; fill:var(--muted); }
+  .node circle.dot{ fill:var(--bg-alt); stroke:var(--line-strong); stroke-width:1; transition:stroke .4s,fill .4s; }
+  .node text{ font-family:'IBM Plex Mono'; font-size:9.5px; letter-spacing:.06em; fill:var(--fg); }
+  .node:hover circle.dot{ stroke:var(--accent); fill:var(--accent); }
+  .node:hover text{ fill:var(--accent); }
+  .spin-slow{ animation:spin 50s linear infinite; transform-origin:230px 230px; }
+  .spin-slow-rev{ animation:spin-rev 65s linear infinite; transform-origin:230px 230px; }
+  @keyframes spin{ from{transform:rotate(0);} to{transform:rotate(360deg);} }
+  @keyframes spin-rev{ from{transform:rotate(360deg);} to{transform:rotate(0);} }
+  .counter-spin{ animation:spin-rev 50s linear infinite; transform-origin:center; }
+  @media (max-width:900px){ .hero-inner{ grid-template-columns:1fr; } .orbit-wrap{ height:320px; order:-1; } }
+
+  /* ===== marquee ===== */
+  .marquee{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:20px 0; overflow:hidden; white-space:nowrap; position:relative; z-index:2; }
+  .marquee-track{ display:inline-flex; animation:scroll-left 24s linear infinite; }
+  .marquee:hover .marquee-track{ animation-play-state:paused; }
+  .marquee span{ font-family:'Fraunces', serif; font-style:italic; font-size:22px; color:var(--muted); padding:0 34px; display:inline-flex; align-items:center; gap:34px; }
+  .marquee span::after{ content:'—'; color:var(--accent); font-style:normal; }
+  @keyframes scroll-left{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  section{ padding:140px 5vw; position:relative; }
+
+  /* ===== ABOUT ===== */
+  .about-grid{ display:grid; grid-template-columns:.6fr 1fr; gap:60px; }
+  .about-grid h2{ font-size:clamp(30px,3.4vw,44px); line-height:1.2; margin-top:18px; }
+  .about-copy{ color:var(--muted); font-size:16px; line-height:1.75; max-width:520px; margin-top:18px; }
+  .about-copy strong{ color:var(--fg); font-weight:500; }
+  @media (max-width:900px){ .about-grid{ grid-template-columns:1fr; } }
+
+  /* ===== ECOSYSTEM ===== */
+  .eco-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:64px; gap:30px; flex-wrap:wrap; }
+  .eco-head h2{ font-size:clamp(30px,3.4vw,44px); margin-top:18px; max-width:560px; }
+  .eco-head p{ color:var(--muted); max-width:300px; font-size:15px; line-height:1.6; }
+  .eco-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .eco-card{ background:var(--bg); padding:44px 34px; position:relative; overflow:hidden; transition:background .5s, transform .5s cubic-bezier(.16,.84,.44,1); }
+  .eco-card:hover{ background:var(--bg-alt); transform:translateY(-6px); }
+  .eco-tag{ font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:.14em; color:var(--accent); }
+  .eco-card h3{ font-size:26px; margin-top:22px; font-weight:400; }
+  .eco-card p{ color:var(--muted); font-size:14.5px; line-height:1.65; margin-top:14px; min-height:66px; }
+  .eco-link{ display:inline-flex; align-items:center; gap:8px; margin-top:26px; font-size:13.5px; }
+  .eco-link .arrow{ display:inline-block; transition:transform .4s cubic-bezier(.16,.84,.44,1); }
+  .eco-card:hover .arrow{ transform:translateX(6px); }
+  @media (max-width:900px){ .eco-cards{ grid-template-columns:1fr; } }
+
+  /* ===== SERVICES (What We Can Do For You) ===== */
+  .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:64px; }
+  .service-card{ background:var(--bg); padding:40px 32px; transition:background .4s, transform .4s cubic-bezier(.16,.84,.44,1); }
+  .service-card:hover{ background:var(--bg-alt); transform:translateY(-6px); }
+  .service-icon{ width:44px; height:44px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; font-family:'Fraunces'; font-style:italic; color:var(--accent); font-size:18px; }
+  .service-card h3{ font-size:21px; margin-top:22px; font-weight:400; }
+  .service-card p{ color:var(--muted); font-size:14px; line-height:1.65; margin-top:12px; }
+  @media (max-width:900px){ .services-grid{ grid-template-columns:1fr; } }
+
+  /* ===== TESTIMONIALS ===== */
+  .testi-wrap{ max-width:760px; margin:60px auto 0; text-align:center; position:relative; min-height:260px; }
+  .testi-slide{ display:none; }
+  .testi-slide.active{ display:block; animation:fadein .7s cubic-bezier(.16,.84,.44,1); }
+  @keyframes fadein{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+  .testi-quote{ font-family:'Fraunces'; font-style:italic; font-size:clamp(22px,2.6vw,30px); line-height:1.45; color:var(--fg); }
+  .testi-quote::before{ content:'“'; color:var(--accent); }
+  .testi-quote::after{ content:'”'; color:var(--accent); }
+  .testi-name{ margin-top:28px; font-family:'IBM Plex Mono'; font-size:12px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; }
+  .testi-dots{ display:flex; justify-content:center; gap:10px; margin-top:36px; }
+  .testi-dot{ width:7px; height:7px; border-radius:50%; background:var(--line-strong); cursor:pointer; transition:background .3s, transform .3s; border:none; }
+  .testi-dot.active{ background:var(--accent); transform:scale(1.3); }
+
+  /* ===== WHY ===== */
+  .why-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:64px; }
+  .why-card{ background:var(--bg); padding:36px 26px; transition:background .4s; }
+  .why-card:hover{ background:var(--bg-alt); }
+  .why-num{ font-family:'IBM Plex Mono'; font-size:11px; color:var(--accent); }
+  .why-card h4{ font-family:'Fraunces'; font-weight:400; font-size:19px; margin-top:16px; }
+  .why-card p{ color:var(--muted); font-size:13.5px; line-height:1.6; margin-top:10px; }
+  @media (max-width:900px){ .why-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:520px){ .why-grid{ grid-template-columns:1fr; } }
+
+  /* ===== BLOG ===== */
+  .blog-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; margin-top:64px; }
+  .blog-card{ border:1px solid var(--line); border-radius:14px; overflow:hidden; transition:transform .5s cubic-bezier(.16,.84,.44,1), border-color .4s; }
+  .blog-card:hover{ transform:translateY(-8px); border-color:var(--line-strong); }
+  .blog-thumb{ height:190px; background:linear-gradient(135deg, var(--bg-alt), var(--bg)); position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .blog-thumb::before{ content:''; position:absolute; inset:0; background:radial-gradient(circle at 30% 30%, var(--accent) 0%, transparent 55%); opacity:.25; transition:transform .6s ease; }
+  .blog-card:hover .blog-thumb::before{ transform:scale(1.3) translate(10px,10px); }
+  .blog-thumb span{ font-family:'IBM Plex Mono'; font-size:10px; letter-spacing:.1em; color:var(--muted); text-transform:uppercase; z-index:1; }
+  .blog-body{ padding:26px 24px 30px; }
+  .blog-tag{ font-family:'IBM Plex Mono'; font-size:10.5px; letter-spacing:.1em; color:var(--accent); text-transform:uppercase; }
+  .blog-body h3{ font-size:19px; margin-top:12px; font-weight:400; line-height:1.35; }
+  .blog-body p{ color:var(--muted); font-size:13.5px; line-height:1.6; margin-top:10px; }
+  .blog-meta{ margin-top:18px; display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted); }
+  .blog-meta .read{ color:var(--fg); display:inline-flex; align-items:center; gap:6px; }
+  @media (max-width:900px){ .blog-grid{ grid-template-columns:1fr; } }
+
+  /* ===== NEWSLETTER BAND ===== */
+  .news-band{ background:var(--bg-alt); border-radius:22px; margin:0 5vw; padding:60px 6vw; display:flex; justify-content:space-between; align-items:center; gap:40px; flex-wrap:wrap; position:relative; overflow:hidden; }
+  .news-band h2{ font-size:clamp(26px,3vw,38px); max-width:440px; }
+  .news-form{ display:flex; gap:0; border-bottom:1px solid var(--line-strong); min-width:320px; flex:1; max-width:420px; }
+  .news-form input{ flex:1; background:transparent; border:none; outline:none; color:var(--fg); font-family:'Inter'; font-size:15px; padding:12px 4px; }
+  .news-form input::placeholder{ color:#5c5e66; }
+  .news-form button{ background:none; border:none; color:var(--accent); font-family:'IBM Plex Mono'; font-size:13px; cursor:pointer; padding:12px 6px; white-space:nowrap; }
+
+  /* ===== CONTACT ===== */
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; }
+  .contact-grid h2{ font-size:clamp(34px,4.2vw,60px); line-height:1.05; }
+  .field{ border-bottom:1px solid var(--line-strong); padding:16px 2px; margin-bottom:6px; }
+  .field input, .field textarea{ width:100%; background:transparent; border:none; outline:none; color:var(--fg); font-family:'Inter'; font-size:15px; resize:none; }
+  .field label{ font-family:'IBM Plex Mono'; font-size:10px; letter-spacing:.1em; color:var(--muted); text-transform:uppercase; display:block; margin-bottom:8px; }
+  .field input::placeholder, .field textarea::placeholder{ color:#55574c; }
+  @media (max-width:900px){ .contact-grid{ grid-template-columns:1fr; } }
+
+  /* ===== FOOTER ===== */
+  footer{ padding:60px 5vw 40px; border-top:1px solid var(--line); margin-top:60px; }
+  .foot-top{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:30px; margin-bottom:50px; }
+  .foot-top h3{ font-size:clamp(28px,4vw,48px); max-width:640px; line-height:1.15; }
+  .foot-socials{ display:flex; gap:22px; font-size:13px; color:var(--muted); }
+  .foot-socials a:hover{ color:var(--accent); }
+  .foot-bottom{ display:flex; justify-content:space-between; color:var(--muted); font-size:12.5px; flex-wrap:wrap; gap:10px; }
+
+  /* ===== NEWSLETTER POPUP MODAL ===== */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(8,8,10,0.72); backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center; z-index:1000;
+    opacity:0; pointer-events:none; transition:opacity .5s ease;
+  }
+  .modal-overlay.show{ opacity:1; pointer-events:auto; }
+  .modal-card{
+    background:var(--bg-alt); border:1px solid var(--line-strong); border-radius:18px;
+    padding:48px 44px; max-width:440px; width:90%; position:relative;
+    transform:translateY(30px) scale(.97); transition:transform .5s cubic-bezier(.16,.84,.44,1);
+  }
+  .modal-overlay.show .modal-card{ transform:translateY(0) scale(1); }
+  .modal-close{ position:absolute; top:18px; right:18px; background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; line-height:1; transition:color .3s; }
+  .modal-close:hover{ color:var(--fg); }
+  .modal-card h3{ font-size:26px; margin-top:14px; max-width:320px; }
+  .modal-card p{ color:var(--muted); font-size:14px; line-height:1.6; margin-top:12px; }
+  .modal-form{ display:flex; gap:0; border-bottom:1px solid var(--line-strong); margin-top:26px; }
+  .modal-form input{ flex:1; background:transparent; border:none; outline:none; color:var(--fg); font-size:14.5px; padding:10px 2px; }
+  .modal-form input::placeholder{ color:#5c5e66; }
+  .modal-form button{ background:none; border:none; color:var(--accent); font-family:'IBM Plex Mono'; font-size:13px; cursor:pointer; }
+  .modal-fine{ margin-top:14px; font-size:11.5px; color:var(--muted); }
+
+  .badge-note{
+    position:fixed; bottom:18px; left:18px; z-index:200;
+    font-family:'IBM Plex Mono'; font-size:10.5px; letter-spacing:.05em; color:var(--muted);
+    background:rgba(21,23,28,0.9); border:1px solid var(--line); padding:8px 12px; border-radius:6px; backdrop-filter:blur(6px);
+    max-width:260px; line-height:1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="badge-note">PROTOTYPE v2 — placeholder colors &amp; copy, send brand hex/logo to finalize</div>
+
+<nav>
+  <div class="logo"><span class="logo-mark"></span>Viva<span>La</span>Vida</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#ecosystem">Ecosystem</a>
+    <a href="#services">Services</a>
+    <a href="#blog">Blog</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Get in touch</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="float float-1"></div>
+  <div class="float float-2"></div>
+  <div class="hero-inner">
+    <div class="load-in" id="hero-text">
+      <div class="eyebrow">VivaLaVida — Est. 2025</div>
+      <h1>Building <em>ideas</em>,<br>impact, and people.</h1>
+      <p>VLV bridges innovation, knowledge, and impact — connecting three divisions into one ecosystem designed to help people and organizations thrive.</p>
+      <div class="hero-actions">
+        <a href="#ecosystem" class="btn-primary">Explore the ecosystem →</a>
+        <a href="#about" class="btn-ghost">About us</a>
+      </div>
+    </div>
+    <div class="orbit-wrap load-in" id="hero-orbit">
+      <svg class="orbit-svg" viewBox="0 0 460 460">
+        <circle class="orbit-ring" cx="230" cy="230" r="200"/>
+        <circle class="orbit-ring" cx="230" cy="230" r="140"/>
+        <circle cx="230" cy="230" r="2" fill="#c9a227"/>
+        <text x="230" y="225" text-anchor="middle" class="orbit-core-label">VLV</text>
+        <text x="230" y="240" text-anchor="middle" class="orbit-core-label" opacity="0.6">CORE</text>
+        <g class="spin-slow">
+          <g class="node counter-spin" transform="translate(230,30)">
+            <circle class="dot" r="34" cx="0" cy="0"/><text text-anchor="middle" y="4">AMB</text>
+          </g>
+        </g>
+        <g class="spin-slow-rev">
+          <g class="node" style="transform-origin:230px 230px;" transform="rotate(140 230 230) translate(230,90)">
+            <circle class="dot" r="30" cx="0" cy="0"/><text text-anchor="middle" y="4">SKH</text>
+          </g>
+        </g>
+        <g class="spin-slow">
+          <g class="node" style="transform-origin:230px 230px;" transform="rotate(250 230 230) translate(230,90)">
+            <circle class="dot" r="30" cx="0" cy="0"/><text text-anchor="middle" y="4">IMC</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Technology</span><span>Learning</span><span>Growth</span><span>Community</span>
+    <span>Technology</span><span>Learning</span><span>Growth</span><span>Community</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="reveal"><div class="eyebrow">About Us</div></div>
+    <div>
+      <h2 class="reveal">Creating value<br>that transforms lives.</h2>
+      <p class="about-copy reveal">VivaLaVida bridges innovation, knowledge, and impact to build solutions that empower people and organizations to thrive. Through our three divisions — <strong>Ambidexters</strong>, <strong>SkillHubs Global</strong>, and <strong>Impact City</strong> — we deliver practical technology, transformative learning, and purpose-driven growth, connected as one ecosystem.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEM -->
+<section id="ecosystem">
+  <div class="eco-head">
+    <div><div class="eyebrow reveal">The Ecosystem</div><h2 class="reveal">The heart of VivaLaVida.</h2></div>
+    <p class="reveal">Three divisions, one ecosystem — each built to help people and organizations thrive in a different way.</p>
+  </div>
+  <div class="eco-cards reveal-stagger">
+    <div class="eco-card">
+      <div class="eco-tag">01 / AMBIDEXTERS</div>
+      <h3>Ambidexters Inc</h3>
+      <p>Tech-enabled solutions revolutionizing business operations.</p>
+      <a href="https://ambidexters.com" class="eco-link">ambidexters.com <span class="arrow">→</span></a>
+    </div>
+    <div class="eco-card">
+      <div class="eco-tag">02 / SKILLHUBS</div>
+      <h3>SkillHubs Global</h3>
+      <p>Corporate growth through training, development, and consulting.</p>
+      <a href="https://theskillhubs.com" class="eco-link">theskillhubs.com <span class="arrow">→</span></a>
+    </div>
+    <div class="eco-card">
+      <div class="eco-tag">03 / IMPACT CITY</div>
+      <h3>Impact City</h3>
+      <p>A safe, inspiring space for personal and professional growth.</p>
+      <a href="https://impact-city.com" class="eco-link">impact-city.com <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES: WHAT WE CAN DO FOR YOU -->
+<section id="services">
+  <div class="eyebrow reveal">What We Can Do For You</div>
+  <h2 class="reveal" style="font-size:clamp(30px,3.4vw,44px); margin-top:18px; max-width:640px;">Whatever stage you're at, VLV has a way in.</h2>
+  <div class="services-grid reveal-stagger">
+    <div class="service-card">
+      <div class="service-icon">Tc</div>
+      <h3>Technology &amp; Product</h3>
+      <p>Custom software, web &amp; mobile products, and digital infrastructure built by Ambidexters.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">Tr</div>
+      <h3>Training &amp; Consulting</h3>
+      <p>Corporate learning, upskilling programs, and organizational consulting via SkillHubs Global.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">Gr</div>
+      <h3>Personal Growth</h3>
+      <p>Community, coaching, and development spaces for individuals through Impact City.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">Cn</div>
+      <h3>Strategic Consulting</h3>
+      <p>Cross-division advisory for organizations navigating tech, talent, and culture change.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">Pt</div>
+      <h3>Partnerships</h3>
+      <p>Collaborations with organizations who share our approach to sustainable impact.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">Cm</div>
+      <h3>Community Access</h3>
+      <p>A network of innovators, learners, and leaders you can plug straight into.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="eyebrow reveal" style="justify-content:center;">Testimonials</div>
+  <h2 class="reveal" style="text-align:center; font-size:clamp(30px,3.4vw,44px); margin-top:18px;">What partners say about VLV.</h2>
+  <div class="testi-wrap reveal">
+    <div class="testi-slide active">
+      <p class="testi-quote">Working with Ambidexters felt less like hiring a vendor and more like adding a technical co-founder to the team.</p>
+      <div class="testi-name">— Partner, Fintech Startup</div>
+    </div>
+    <div class="testi-slide">
+      <p class="testi-quote">SkillHubs redesigned how our managers think about feedback. The change showed up in retention within a quarter.</p>
+      <div class="testi-name">— HR Director, Logistics Co.</div>
+    </div>
+    <div class="testi-slide">
+      <p class="testi-quote">Impact City gave our team a space to grow that wasn't just another corporate wellness checkbox.</p>
+      <div class="testi-name">— Operations Lead, NGO</div>
+    </div>
+    <div class="testi-dots">
+      <button class="testi-dot active" data-i="0"></button>
+      <button class="testi-dot" data-i="1"></button>
+      <button class="testi-dot" data-i="2"></button>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="eyebrow reveal">Why Choose Us</div>
+  <h2 class="reveal" style="font-size:clamp(30px,3.4vw,44px); margin-top:18px; max-width:640px;">Empowering change, one solution at a time.</h2>
+  <div class="why-grid reveal-stagger">
+    <div class="why-card"><div class="why-num">—</div><h4>Interconnected Divisions</h4><p>One ecosystem, three powerful paths working together.</p></div>
+    <div class="why-card"><div class="why-num">—</div><h4>Practical Outcomes</h4><p>We focus on results that drive real, measurable progress.</p></div>
+    <div class="why-card"><div class="why-num">—</div><h4>Expert-Led Programs</h4><p>Guidance from experienced professionals and coaches.</p></div>
+    <div class="why-card"><div class="why-num">—</div><h4>Community of Growth</h4><p>Join innovators, learners, and leaders shaping the future.</p></div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="eco-head">
+    <div><div class="eyebrow reveal">From the Blog</div><h2 class="reveal">Ideas, notes, and updates.</h2></div>
+    <p class="reveal">Writing from across the ecosystem — tech, learning, and growth.</p>
+  </div>
+  <div class="blog-grid reveal-stagger">
+    <div class="blog-card">
+      <div class="blog-thumb"><span>AMBIDEXTERS</span></div>
+      <div class="blog-body">
+        <div class="blog-tag">Technology</div>
+        <h3>Why we build in public at Ambidexters</h3>
+        <p>A look at how transparent product cycles shape better software for clients.</p>
+        <div class="blog-meta"><span>Aug 2026</span><span class="read">Read more →</span></div>
+      </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-thumb"><span>SKILLHUBS</span></div>
+      <div class="blog-body">
+        <div class="blog-tag">Learning</div>
+        <h3>The upskilling gap most companies miss</h3>
+        <p>What our corporate training data tells us about where teams actually get stuck.</p>
+        <div class="blog-meta"><span>Aug 2026</span><span class="read">Read more →</span></div>
+      </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-thumb"><span>IMPACT CITY</span></div>
+      <div class="blog-body">
+        <div class="blog-tag">Growth</div>
+        <h3>Building community that outlasts the program</h3>
+        <p>Lessons from two years of running personal growth spaces at Impact City.</p>
+        <div class="blog-meta"><span>Aug 2026</span><span class="read">Read more →</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER BAND -->
+<section style="padding-top:0;">
+  <div class="news-band reveal">
+    <div>
+      <div class="eyebrow">Newsletter</div>
+      <h2 style="margin-top:14px;">Stay close to the ecosystem.</h2>
+    </div>
+    <form class="news-form" onsubmit="return false;">
+      <input type="text" placeholder="you@email.com">
+      <button type="submit">Subscribe →</button>
+    </form>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="reveal">
+      <div class="eyebrow">Contact Us</div>
+      <h2 style="margin-top:18px;">Let's start the conversation.</h2>
+      <p style="color:var(--muted); margin-top:20px; max-width:380px; line-height:1.65;">Have a question, partnership idea, or project in mind? Reach out and we'll get back to you.</p>
+    </div>
+    <div class="reveal">
+      <div class="field"><label>Full name</label><input type="text" placeholder="Your name"></div>
+      <div class="field"><label>Email</label><input type="text" placeholder="you@email.com"></div>
+      <div class="field"><label>Subject</label><input type="text" placeholder="What's this about?"></div>
+      <div class="field"><label>Message</label><textarea rows="3" placeholder="Tell us more..."></textarea></div>
+      <a href="#" class="btn-primary" style="margin-top:26px;">Send message →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-top">
+    <h3 class="reveal">Be part of the<br>VivaLaVida experience.</h3>
+    <div class="foot-socials reveal"><a href="#">LinkedIn</a><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">X</a></div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 VivaLaVida. All rights reserved.</span>
+    <span>Ambidexters · SkillHubs Global · Impact City</span>
+  </div>
+</footer>
+
+<!-- NEWSLETTER POPUP -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-card">
+    <button class="modal-close" id="modal-close">×</button>
+    <div class="eyebrow">Join the list</div>
+    <h3>Don't miss what's next at VLV.</h3>
+    <p>One email, occasionally — new from Ambidexters, SkillHubs, and Impact City.</p>
+    <form class="modal-form" onsubmit="return false;">
+      <input type="text" placeholder="you@email.com">
+      <button type="submit">Join →</button>
+    </form>
+    <div class="modal-fine">No spam. Unsubscribe anytime.</div>
+  </div>
+</div>
+
+<script>
+  // scroll reveals
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:0.12, rootMargin:'0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el=>io.observe(el));
+
+  // hero load-in animation — fires immediately on page load, no scroll needed
+  window.addEventListener('DOMContentLoaded', ()=>{
+    setTimeout(()=>document.getElementById('hero-text').classList.add('go'), 150);
+    setTimeout(()=>document.getElementById('hero-orbit').classList.add('go'), 350);
+  });
+
+  // testimonial carousel — auto-rotate + dot nav
+  const slides = document.querySelectorAll('.testi-slide');
+  const dots = document.querySelectorAll('.testi-dot');
+  let ti = 0;
+  function showSlide(i){
+    slides.forEach(s=>s.classList.remove('active'));
+    dots.forEach(d=>d.classList.remove('active'));
+    slides[i].classList.add('active');
+    dots[i].classList.add('active');
+    ti = i;
+  }
+  dots.forEach(d=>d.addEventListener('click', ()=>showSlide(parseInt(d.dataset.i))));
+  setInterval(()=>showSlide((ti+1)%slides.length), 5000);
+
+  // newsletter popup — appears once after a short delay
+  const modal = document.getElementById('modal');
+  let modalShown = false;
+  setTimeout(()=>{
+    if(!modalShown){ modal.classList.add('show'); modalShown = true; }
+  }, 6000);
+  document.getElementById('modal-close').addEventListener('click', ()=>modal.classList.remove('show'));
+  modal.addEventListener('click', (e)=>{ if(e.target === modal) modal.classList.remove('show'); });
+</script>
+
+</body>
+</html>

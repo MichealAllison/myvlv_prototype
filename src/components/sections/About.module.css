@@ -1,0 +1,34 @@
+.section {
+  padding: var(--section-pad) clamp(20px, 4vw, 48px);
+}
+
+.grid {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  display: grid;
+  gap: var(--space-l);
+}
+
+.heading {
+  font-size: var(--text-h2);
+  max-width: 560px;
+}
+
+.body {
+  color: var(--color-muted);
+  line-height: var(--leading-body);
+  max-width: 620px;
+  margin-top: var(--space-l);
+}
+
+.copy strong {
+  color: var(--color-fg);
+  font-weight: 600;
+}
+
+@media (min-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-xl);
+  }
+}

@@ -1,0 +1,46 @@
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  align-items: center;
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: var(--space-xs);
+}
+
+.form input {
+  flex: 1;
+  min-width: 220px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-fg);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  padding: 10px 2px;
+}
+
+.form input::placeholder {
+  color: rgba(154, 156, 166, 0.55);
+}
+
+.done {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-accent);
+}
+
+.error {
+  width: 100%;
+  flex-basis: 100%;
+  font-size: 0.8125rem;
+  color: #e07a5f;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

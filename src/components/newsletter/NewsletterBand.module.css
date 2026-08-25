@@ -1,0 +1,29 @@
+.section {
+  padding: 0 clamp(20px, 4vw, 48px);
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+
+.band {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: clamp(2rem, 5vw, 3.5rem);
+  display: grid;
+  gap: var(--space-l);
+  align-items: center;
+}
+
+.heading {
+  font-size: var(--text-h2);
+  margin-top: var(--space-s);
+}
+
+@media (min-width: 860px) {
+  .band {
+    grid-template-columns: 1.2fr 1fr;
+  }
+}

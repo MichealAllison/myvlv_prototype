@@ -1,0 +1,58 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: rgba(6, 7, 9, 0.72);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-m);
+}
+
+.card {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-card);
+  padding: clamp(2rem, 5vw, 3rem);
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.close:hover {
+  color: var(--color-fg);
+}
+
+.heading {
+  font-size: 1.625rem;
+  margin-top: var(--space-s);
+  max-width: 320px;
+}
+
+.copy {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  line-height: var(--leading-body);
+  margin-top: var(--space-xs);
+  margin-bottom: var(--space-l);
+}
+
+.fine {
+  margin-top: var(--space-s);
+  font-size: 0.71875rem;
+  color: var(--color-muted);
+}

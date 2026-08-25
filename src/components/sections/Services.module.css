@@ -1,0 +1,33 @@
+.section {
+  padding: var(--section-pad) clamp(20px, 4vw, 48px);
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+
+.heading {
+  font-size: clamp(1.875rem, 3.4vw, 2.75rem);
+  margin-top: var(--space-m);
+  max-width: 640px;
+}
+
+.cards {
+  display: grid;
+  gap: var(--space-s);
+  margin-top: var(--space-xl);
+}
+
+@media (min-width: 700px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1020px) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
