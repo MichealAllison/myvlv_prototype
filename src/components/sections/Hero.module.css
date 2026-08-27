@@ -66,6 +66,10 @@
   margin-top: var(--space-m);
 }
 
+.visual {
+  position: relative;
+}
+
 .text em {
   font-style: italic;
   color: var(--color-accent);

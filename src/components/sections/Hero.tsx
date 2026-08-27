@@ -45,6 +45,7 @@ export function Hero() {
         </motion.div>
 
         <motion.div
+          className={styles.visual}
           variants={loadInVariant}
           initial="hidden"
           animate="visible"

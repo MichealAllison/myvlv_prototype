@@ -19,9 +19,15 @@
   padding-top: var(--space-m);
 }
 
-.num {
-  font-family: var(--font-mono);
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
 }
 
 .title {
@@ -29,6 +35,18 @@
   font-weight: 600;
   font-size: 1.0625rem;
   margin-top: var(--space-xs);
+}
+
+.description {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  line-height: var(--leading-body);
+  margin-top: var(--space-2xs);
+}
+
+.num {
+  font-family: var(--font-mono);
+  color: var(--color-accent);
 }
 
 .description {

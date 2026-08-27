@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 
 import type { Testimonial } from '@/lib/data/testimonials';
 import { EASE_SMOOTH } from '@/lib/animation/variants';
@@ -59,7 +60,18 @@ export function TestimonialCarousel({ items }: TestimonialCarouselProps) {
             transition={{ duration: 0.5, ease: EASE_SMOOTH }}
           >
             <blockquote className={styles.quote}>{current.quote}</blockquote>
-            <figcaption className={styles.author}>{current.author}</figcaption>
+            <figcaption className={styles.authorRow}>
+              {current.avatar && (
+                <Image
+                  src={current.avatar}
+                  alt=""
+                  width={44}
+                  height={44}
+                  className={styles.avatar}
+                />
+              )}
+              <span>{current.author}</span>
+            </figcaption>
           </motion.figure>
         </AnimatePresence>
       </div>

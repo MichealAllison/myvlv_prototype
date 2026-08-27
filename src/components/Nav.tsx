@@ -28,7 +28,7 @@ export function Nav() {
     <nav className={scrolled ? `${styles.nav} ${styles.scrolled}` : styles.nav}>
       <Link href="/" className={styles.logo} aria-label="VivaLaVida home">
         <Image src='/logo.png' alt='VivaLaVida logo' width={32} height={32} className={styles.logoImage} />
-        Viva<span className={styles.logoAccent}>La</span>Vida
+        <span className={styles.wordmark}>Viva<span className={styles.logoAccent}>La</span>Vida</span>
       </Link>
       <div className={styles.links}>
         {links.map((link) => (

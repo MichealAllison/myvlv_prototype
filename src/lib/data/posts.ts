@@ -7,6 +7,7 @@ export interface Post {
   title: string;
   excerpt: string;
   date: string;
+  image: string;
 }
 
 /**
@@ -23,6 +24,7 @@ export const posts: Post[] = [
     excerpt:
       'A look at how transparent product cycles shape better software for clients.',
     date: 'Aug 2026',
+    image: 'https://source.unsplash.com/600x480?computer,technology&sig=amb',
   },
   {
     slug: 'the-upskilling-gap-most-companies-miss',
@@ -32,6 +34,7 @@ export const posts: Post[] = [
     excerpt:
       'What our corporate training data tells us about where teams actually get stuck.',
     date: 'Aug 2026',
+    image: 'https://source.unsplash.com/600x480?education,learning&sig=skh',
   },
   {
     slug: 'building-community-that-outlasts-the-program',
@@ -41,5 +44,6 @@ export const posts: Post[] = [
     excerpt:
       'Lessons from two years of running personal growth spaces at Impact City.',
     date: 'Aug 2026',
+    image: 'https://source.unsplash.com/600x480?community,people&sig=imc',
   },
 ];

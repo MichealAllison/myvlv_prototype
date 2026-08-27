@@ -29,31 +29,72 @@
   letter-spacing: 0.3em;
 }
 
-.dot {
-  fill: var(--color-bg-alt);
-  stroke: var(--line-strong);
-  stroke-width: 1;
+/* ---------- HTML avatar riders (replaces the SVG dots) ---------- */
+
+.avatarLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
-.nodeLabel {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  fill: var(--color-fg);
+/* Full-square rotor — rotates its arm around the ring center, exactly like
+   the old SVG <g class="spinSlow"> with transform-origin 230px 230px */
+.rotor,
+.rotorRev {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
 }
 
-/* Ambient orbit rotation — GPU-composited transforms only */
-.spinSlow,
-.spinSlowRev {
-  transform-origin: 230px 230px;
-}
-
-.spinSlow {
+.rotor {
   animation: orbitSpin 46s linear infinite;
 }
 
-.spinSlowRev {
+.rotorRev {
   animation: orbitSpinRev 58s linear infinite;
+}
+
+/* Arm sits at the center and reaches out to the node's orbital position:
+   rotate(startAngle) + translateY(-orbit). Coordinates come from NODES. */
+.arm {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+}
+
+/* Counter-rotator cancels the rotor's angle so the face stays upright */
+.counterCW {
+  animation: orbitSpinRev 46s linear infinite;
+  will-change: transform;
+}
+
+.counterCCW {
+  animation: orbitSpin 58s linear infinite;
+  will-change: transform;
+}
+
+.avatar {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: auto;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-bg);
+  outline: 1px solid var(--line-strong);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 480px) {
+  .photo {
+    transform: scale(0.8);
+  }
 }
 
 @keyframes orbitSpin {
@@ -69,8 +110,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .spinSlow,
-  .spinSlowRev {
+  .rotor,
+  .rotorRev,
+  .counterCW,
+  .counterCCW {
     animation: none;
   }
 }

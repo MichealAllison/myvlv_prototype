@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Fraunces, IBM_Plex_Mono, Inter } from 'next/font/google';
 
 import { MotionProvider } from '@/lib/animation/MotionProvider';
+import { Preloader } from '@/components/ui/Preloader';
 
 import './globals.css';
 
@@ -37,7 +38,10 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${fraunces.variable} ${plexMono.variable}`}
       >
-        <MotionProvider>{children}</MotionProvider>
+        <MotionProvider>
+          <Preloader />
+          {children}
+        </MotionProvider>
       </body>
     </html>
   );

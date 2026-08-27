@@ -1,3 +1,7 @@
+'use client';
+
+import Image from 'next/image';
+
 import type { Post } from '@/lib/data/posts';
 
 import styles from './BlogCard.module.css';
@@ -6,18 +10,24 @@ interface BlogCardProps {
   post: Post;
 }
 
-/**
- * Blog card. Thumbs are typographic placeholders until real imagery
- * exists — swap the .thumb block for next/image when assets arrive.
- */
+/** Blog card with a real image thumb. */
 export function BlogCard({ post }: BlogCardProps) {
   return (
     <article className={styles.card}>
-      <div className={`${styles.thumb} ${styles[post.division.replace(' ', '')]}`}>
-        <span>{post.division}</span>
+      <div className={styles.media}>
+        <Image
+          src={post.image}
+          alt=""
+          width={600}
+          height={480}
+          className={styles.image}
+        />
+        <p className={`${styles.tag} ${styles[post.division.replace(' ', '')]}`}>
+          {post.division}
+        </p>
       </div>
       <div className={styles.body}>
-        <p className={styles.tag}>{post.category}</p>
+        <p className={styles.category}>{post.category}</p>
         <h3 className={styles.title}>{post.title}</h3>
         <p className={styles.excerpt}>{post.excerpt}</p>
         <div className={styles.meta}>

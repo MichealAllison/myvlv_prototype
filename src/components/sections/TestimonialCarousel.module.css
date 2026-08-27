@@ -21,11 +21,24 @@
   line-height: 1.4;
 }
 
+.authorRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: var(--space-m);
+}
+
+.avatar {
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  object-fit: cover;
+}
+
 .author {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   color: var(--color-muted);
-  margin-top: var(--space-m);
 }
 
 .controls {
