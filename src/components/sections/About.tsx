@@ -1,16 +1,9 @@
 'use client';
 
-import Image from 'next/image';
-
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 
 import styles from './About.module.css';
-
-const PORTRAIT = {
-  src: 'https://randomuser.me/api/portraits/men/46.jpg',
-  alt: 'A VLV team member in the community space',
-};
 
 export function About() {
   return (
@@ -39,15 +32,6 @@ export function About() {
             </p>
           </Reveal>
         </div>
-        <Reveal delay={0.2} className={styles.portraitWrap}>
-          <Image
-            src={PORTRAIT.src}
-            alt={PORTRAIT.alt}
-            width={640}
-            height={800}
-            className={styles.portrait}
-          />
-        </Reveal>
       </div>
     </section>
   );

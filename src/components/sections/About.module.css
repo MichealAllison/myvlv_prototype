@@ -25,37 +25,3 @@
   color: var(--color-fg);
   font-weight: 600;
 }
-
-/* Hero-style portrait: a single strong human image to the right */
-.portraitWrap {
-  justify-self: end;
-  align-self: start;
-}
-
-.portrait {
-  width: 100%;
-  max-width: 320px;
-  height: auto;
-  border-radius: var(--radius-card);
-  object-fit: cover;
-  border: 1px solid var(--line);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-}
-
-@media (min-width: 860px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
-    gap: var(--space-xl);
-  }
-}
-
-@media (max-width: 720px) {
-  .portraitWrap {
-    justify-self: center;
-    align-self: center;
-  }
-  .portrait {
-    max-width: 260px;
-  }
-}
