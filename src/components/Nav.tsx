@@ -1,21 +1,19 @@
 'use client';
 
-import Link from 'next/link';
+import Image from 'next/image';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
-import styles from './Nav.module.css';
-import Image from 'next/image';
+import { EASE_EXPO } from '@/lib/animation/variants';
+import { NAV_ITEMS, useView } from '@/lib/view/ViewContext';
 
-const links = [
-  { href: '/#about', label: 'About' },
-  { href: '/#ecosystem', label: 'Ecosystem' },
-  { href: '/#services', label: 'Services' },
-  { href: '/#blog', label: 'Blog' },
-  { href: '/#contact', label: 'Contact' },
-];
+import styles from './Nav.module.css';
+import { OverlayMenu } from './OverlayMenu';
 
 export function Nav() {
+  const { navigate } = useView();
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -24,22 +22,80 @@ export function Nav() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Lock body scroll while the overlay is open so the page behind can't drift.
+  useEffect(() => {
+    if (!open) return;
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.documentElement.style.overflow = '';
+    };
+  }, [open]);
+
+  const navClass = scrolled || open ? `${styles.nav} ${styles.scrolled}` : styles.nav;
+  // When the menu is open, keep the header transparent so the brand panel
+  // shows through cleanly underneath it (no opaque scrolled bar).
+  const headerClass = open ? `${navClass} ${styles.open}` : navClass;
+
+  const select = (key: Parameters<typeof navigate>[0]) => {
+    navigate(key);
+    setOpen(false);
+  };
+
   return (
-    <nav className={scrolled ? `${styles.nav} ${styles.scrolled}` : styles.nav}>
-      <Link href="/" className={styles.logo} aria-label="VivaLaVida home">
-        <Image src='/logo.png' alt='VivaLaVida logo' width={32} height={32} className={styles.logoImage} />
-        <span className={styles.wordmark}>Viva<span className={styles.logoAccent}>La</span>Vida</span>
-      </Link>
-      <div className={styles.links}>
-        {links.map((link) => (
-          <Link key={link.href} href={link.href} className={styles.link}>
-            {link.label}
-          </Link>
-        ))}
-      </div>
-      <Link href="/#contact" className={styles.cta}>
-        Get in touch
-      </Link>
-    </nav>
+    <>
+      <nav className={headerClass} aria-label="Main">
+        <button
+          type="button"
+          className={styles.logo}
+          aria-label="VivaLaVida home"
+          onClick={() => select('home')}
+        >
+          <Image
+            src="/logo.png"
+            alt="VivaLaVida logo"
+            width={32}
+            height={32}
+            className={styles.logoImage}
+          />
+          <span className={styles.wordmark}>
+            Viva<span className={styles.logoAccent}>La</span>Vida
+          </span>
+        </button>
+
+        <button
+          type="button"
+          className={styles.toggle}
+          onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+          aria-controls="site-menu"
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          data-cursor-label="MENU"
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={open ? 'close' : 'menu'}
+              className={styles.toggleLabel}
+              initial={{ y: '115%' }}
+              animate={{ y: '0%' }}
+              exit={{ y: '-115%' }}
+              transition={{ duration: 0.35, ease: EASE_EXPO }}
+            >
+              {open ? 'CLOSE' : 'MENU'}
+            </motion.span>
+          </AnimatePresence>
+        </button>
+      </nav>
+
+      <AnimatePresence>
+        {open && (
+          <OverlayMenu
+            open
+            items={NAV_ITEMS}
+            onSelect={select}
+            onClose={() => setOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+    </>
   );
 }

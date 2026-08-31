@@ -3,6 +3,7 @@ import { Fraunces, IBM_Plex_Mono, Inter } from 'next/font/google';
 
 import { MotionProvider } from '@/lib/animation/MotionProvider';
 import { Preloader } from '@/components/ui/Preloader';
+import { Cursor } from '@/components/Cursor';
 
 import './globals.css';
 
@@ -41,6 +42,7 @@ export default function RootLayout({
         <MotionProvider>
           <Preloader />
           {children}
+          <Cursor />
         </MotionProvider>
       </body>
     </html>

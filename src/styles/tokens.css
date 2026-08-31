@@ -59,5 +59,11 @@
 
   /* ---------- Z ---------- */
   --z-nav: 100;
+  /* Overlay menu panel — sits under the header (which stays above it) but over all page content. */
+  --z-menu: 95;
   --z-modal: 200;
+  /* Intro journey overlay — above nav + modal, below the boot preloader. */
+  --z-intro: 250;
+  /* Custom cursor — above everything on fine-pointer devices. */
+  --z-cursor: 300;
 }

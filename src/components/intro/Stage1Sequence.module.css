@@ -1,0 +1,95 @@
+.stage {
+  position: absolute;
+  inset: 0;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.slideWrap {
+  position: absolute;
+  inset: 0;
+}
+
+/* Thin overall progress line. */
+.progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  height: 3px;
+  background: var(--line);
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-accent-2), var(--color-accent));
+  transform-origin: left;
+  box-shadow: 0 0 12px rgba(227, 2, 227, 0.6);
+}
+
+/* Dot progress indicator. */
+.dots {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line-strong);
+  transition:
+    background var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth),
+    box-shadow var(--duration-fast) var(--ease-smooth);
+}
+
+.dotActive {
+  composes: dot;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent);
+  transform: scale(1.25);
+}
+
+.dotDone {
+  composes: dot;
+  background: var(--color-muted);
+}
+
+/* Low-opacity accessibility / impatient escape hatch, top-right. */
+.skip {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 4;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-fg);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  cursor: pointer;
+  opacity: 0.55;
+  backdrop-filter: blur(4px);
+  transition:
+    opacity var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.skip:hover,
+.skip:focus-visible {
+  opacity: 1;
+  border-color: var(--color-fg);
+}

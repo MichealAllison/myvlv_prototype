@@ -1,0 +1,12 @@
+.overlayLayer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-intro);
+  overflow: hidden;
+}
+
+.boot {
+  position: absolute;
+  inset: 0;
+  background: var(--color-bg);
+}

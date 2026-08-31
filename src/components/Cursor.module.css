@@ -1,0 +1,66 @@
+/* The spring x/y values drive this wrapper; the ring is its only child. */
+.wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  /* A 1px anchor point translated by x/y is jittery on its own; the visual
+     ring is centered on it via translate(-50%, -50%) below. */
+}
+
+.ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Default: thin, muted outline ring. */
+.default {
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px; /* center on the 1px anchor (no transform, so Framer scale composes) */
+  border: 1.5px solid color-mix(in srgb, var(--color-fg) 45%, transparent);
+}
+
+/* Hover on a clickable: grows, gains the accent fill. */
+.hover {
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border: 1.5px solid transparent;
+  background: color-mix(in srgb, var(--color-accent) 22%, transparent);
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+
+/* Label state: large filled disc with a word inside. */
+.label {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* Text-input: hidden (opacity handled by the animate prop). */
+.text {
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border: 1.5px solid var(--color-accent);
+}
+
+.caption {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--color-bg);
+  pointer-events: none;
+}

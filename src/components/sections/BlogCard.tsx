@@ -13,7 +13,7 @@ interface BlogCardProps {
 /** Blog card with a real image thumb. */
 export function BlogCard({ post }: BlogCardProps) {
   return (
-    <article className={styles.card}>
+    <article className={styles.card} data-cursor-label="VIEW">
       <div className={styles.media}>
         <Image
           src={post.image}

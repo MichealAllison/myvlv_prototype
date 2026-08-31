@@ -10,6 +10,12 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
+body {
+  height: 100%;
+  overscroll-behavior: none;
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-fg);
@@ -57,5 +63,20 @@ button {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+/*
+ * Hide the native cursor only while the custom Cursor is active on a real
+ * pointing device. The `cur-on` class is added/removed by Cursor.tsx, so this
+ * never hides the cursor for touch or reduced-motion users who render no
+ * replacement.
+ */
+@media (hover: hover) and (pointer: fine) {
+  body.cur-on,
+  body.cur-on a,
+  body.cur-on button,
+  body.cur-on [role="button"] {
+    cursor: none;
   }
 }

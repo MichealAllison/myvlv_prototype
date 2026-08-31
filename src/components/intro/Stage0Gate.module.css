@@ -1,0 +1,165 @@
+.gate {
+  position: absolute;
+  inset: 0;
+  background: var(--color-bg);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+/* Ambient brand glow behind the mark — mirrors the boot preloader's treatment. */
+.gate::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(227, 2, 227, 0.14) 0%,
+    rgba(7, 197, 188, 0.06) 42%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  transform: translate(-50%, -50%);
+  animation: breathe 4s var(--ease-inout) infinite alternate;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-l);
+  text-align: center;
+  padding: var(--space-l);
+}
+
+.mark {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  display: grid;
+  place-items: center;
+}
+
+.logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+
+/* Expanding sonar ring around the brand mark. */
+.mark::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid var(--color-accent);
+  opacity: 0.55;
+  animation: sonar 2.6s var(--ease-inout) infinite;
+}
+
+.est {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--color-muted);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.est::before,
+.est::after {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 7vw, 4.25rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  filter: drop-shadow(0 0 28px rgba(227, 2, 227, 0.18));
+}
+
+.accent {
+  color: var(--color-accent);
+  font-style: italic;
+  text-shadow: 0 0 32px rgba(227, 2, 227, 0.45);
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-bg);
+  background: var(--color-accent);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 14px 30px;
+  cursor: pointer;
+  transition:
+    transform var(--duration-fast) var(--ease-smooth),
+    box-shadow var(--duration-fast) var(--ease-smooth);
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 34px rgba(227, 2, 227, 0.32);
+}
+
+.hint {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gate::before,
+  .mark::after {
+    animation: none;
+  }
+}
+
+@keyframes sonar {
+  from {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes breathe {
+  from {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}

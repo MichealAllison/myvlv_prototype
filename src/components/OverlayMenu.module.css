@@ -1,0 +1,126 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-menu); /* under header (nav z 100), over page content */
+  /* Distinct brand panel — a clear mode-switch from the dark page bg. */
+  background: var(--color-accent);
+  color: var(--color-bg);
+  overflow-y: auto;
+}
+
+/* Overlay-specific focus ring in page-ink so it reads on the brand bg. */
+.overlay :focus-visible {
+  outline: 2px solid var(--color-bg);
+  outline-offset: 4px;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 120px clamp(20px, 5vw, 64px) var(--space-l);
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  padding-bottom: var(--space-l);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-bg) 30%, transparent);
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin-top: var(--space-xl);
+}
+
+.itemWrap {
+  overflow: hidden; /* clips the rising word */
+}
+
+.mask {
+  display: block;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-m);
+  /* Oversized, confident menu type. */
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 7.5vw, 5.5rem);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--color-bg);
+  padding-block: 0.06em;
+  width: fit-content;
+  /* Button reset — this element is now a <button>. */
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition:
+    color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth);
+}
+
+/* Consistent hover: horizontal shift + underline draw-in. */
+.item:hover,
+.item:focus-visible {
+  color: var(--color-fg);
+  transform: translateX(12px);
+}
+
+.index {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+  align-self: flex-start;
+  margin-top: 0.9em;
+}
+
+.foot {
+  margin-top: auto;
+  padding-top: var(--space-l);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-s);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
+.footHint {
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.footHint:hover {
+  color: var(--color-fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item:hover,
+  .item:focus-visible {
+    transform: none;
+  }
+}
