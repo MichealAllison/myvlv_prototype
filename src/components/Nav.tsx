@@ -49,8 +49,6 @@ export function Nav() {
   }, [open]);
 
   const navClass = scrolled || open ? `${styles.nav} ${styles.scrolled}` : styles.nav;
-  // When the menu is open, keep the header transparent so the brand panel
-  // shows through cleanly underneath it (no opaque scrolled bar).
   const headerClass = open ? `${navClass} ${styles.open}` : navClass;
 
   const select = (key: Parameters<typeof navigate>[0]) => {

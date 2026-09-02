@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, type Variants } from 'framer-motion';
+import Link from 'next/link';
 
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { EASE_EXPO, loadInVariant } from '@/lib/animation/variants';
@@ -20,13 +21,12 @@ const LINES: { tokens: { text: string; accent?: boolean; punct?: boolean }[] }[]
   {
     tokens: [
       { text: 'Building' },
-      { text: 'ideas', accent: true },
-      { text: ',', punct: true },
+      { text: 'ideas,', accent: true },
+      { text: 'impact,' },
     ],
   },
   {
     tokens: [
-      { text: 'impact,' },
       { text: 'and' },
       { text: 'people.' },
     ],
@@ -59,7 +59,7 @@ export function Hero() {
             animate="visible"
             custom={0.05}
           >
-            <Eyebrow>VivaLaVida — Est. 2025</Eyebrow>
+            <Eyebrow>VivaLaVida — Est. 2022</Eyebrow>
           </motion.div>
 
           <motion.h1
@@ -105,9 +105,9 @@ export function Hero() {
             animate="visible"
             custom={0.5}
           >
-            VLV bridges innovation, knowledge, and impact — connecting three
-            divisions into one ecosystem designed to help people and
-            organizations thrive.
+            We build the systems, capabilities and human potential that help
+            organisations and people move forward. Ambidexters, SkillHubs and
+            ImpactCity operate as one connected ecosystem.
           </motion.p>
 
           <motion.div
@@ -122,15 +122,14 @@ export function Hero() {
               className={btnStyles.btnPrimary}
               onClick={() => navigate('ecosystem')}
             >
-              Explore the ecosystem <span aria-hidden="true">→</span>
+              Enter the ecosystem <span aria-hidden="true">→</span>
             </button>
-            <button
-              type="button"
+            <Link
               className={btnStyles.btnGhost}
-              onClick={() => navigate('about')}
+              href="/companies"
             >
-              About us
-            </button>
+              Our companies
+            </Link>
           </motion.div>
         </div>
 

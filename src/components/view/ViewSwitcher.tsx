@@ -10,8 +10,10 @@ import { About } from '@/components/sections/About';
 import { Blog } from '@/components/sections/Blog';
 import { Contact } from '@/components/sections/Contact';
 import { Ecosystem } from '@/components/sections/Ecosystem';
+import { FinalCTA } from '@/components/sections/FinalCTA';
 import { Hero } from '@/components/sections/Hero';
 import { Marquee } from '@/components/sections/Marquee';
+import { Proof } from '@/components/sections/Proof';
 import { Services } from '@/components/sections/Services';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { WhyChooseUs } from '@/components/sections/WhyChooseUs';
@@ -63,6 +65,8 @@ function ViewContent({ view }: { view: ViewKey }) {
       return (
         <>
           <Ecosystem />
+          <Proof />
+          <FinalCTA />
           <Testimonials />
         </>
       );
@@ -81,7 +85,6 @@ function ViewContent({ view }: { view: ViewKey }) {
           <div className={styles.contactScroll}>
             <Contact />
           </div>
-          <ContactBar />
         </div>
       );
     default:
@@ -107,6 +110,7 @@ export function ViewSwitcher() {
           <ViewContent view={view} />
         </Frame>
       </AnimatePresence>
+      <ContactBar />
     </main>
   );
 }

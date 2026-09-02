@@ -7,15 +7,250 @@
   margin-inline: auto;
 }
 
-.cards {
+.thesis {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  margin-top: clamp(2.4rem, 5vw, 4rem);
+}
+
+.thesisLead {
+  max-width: 740px;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 3vw, 3.2rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.thesisCore {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 300px;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.04), transparent 55%);
+  overflow: hidden;
+}
+
+.wordTrack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.wordTrack span {
+  font-size: clamp(1.15rem, 2vw, 2.25rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.coreBadge {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  transform: translate(-50%, 50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 190px;
+  padding: 0.85rem 1.2rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+}
+
+.nodes {
   display: grid;
   gap: var(--space-m);
-  margin-top: var(--space-xl);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 240px;
+  padding: clamp(1.2rem, 2vw, 1.7rem);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+
+.node::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 58%);
+  opacity: 0.7;
+}
+
+.node > * {
+  position: relative;
+  z-index: 1;
+}
+
+.nodeLink {
+  display: grid;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.nodeLinkHint {
+  margin-top: auto;
+  padding-top: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.nodeTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.nodeIndex,
+.nodeAction {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.nodeMeta {
+  margin-top: 2.6rem;
+}
+
+.nodeTag {
+  margin-bottom: 0.5rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.node h3 {
+  font-size: clamp(1.7rem, 2vw, 2.25rem);
+  line-height: 1.04;
+}
+
+.nodeDescription {
+  margin-top: 1rem;
+  max-width: 34ch;
+}
+
+.ambidexters {
+  background: linear-gradient(135deg, rgba(227, 2, 227, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.skillhubs {
+  background: linear-gradient(135deg, rgba(7, 197, 188, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.impactcity {
+  background: linear-gradient(135deg, rgba(242, 169, 92, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.journeyWrap {
+  margin-top: clamp(3rem, 5vw, 5rem);
+  padding-top: clamp(1.5rem, 3vw, 2rem);
+  border-top: 1px solid var(--line);
+}
+
+.journeyHeader {
+  display: grid;
+  gap: 0.7rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.journeyEyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.journeyTitle {
+  max-width: 760px;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.journey {
+  display: grid;
+  gap: 1rem;
+}
+
+.journeyItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.journeyStep {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.journeyBody {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.journeyBody h4 {
+  margin-bottom: 0.4rem;
+  font-size: clamp(1.2rem, 1.6vw, 1.7rem);
+}
+
+.journeyBody p {
+  max-width: 52ch;
 }
 
 @media (min-width: 860px) {
   .cards {
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-s);
+  }
+
+  .nodes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .journey {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .journeyItem {
+    display: block;
+  }
+
+  .journeyStep {
+    margin-bottom: 0.9rem;
   }
 }

@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: var(--z-nav); /* above the overlay (--z-menu) so logo + toggle stay tappable */
+  z-index: var(--z-nav);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -21,14 +21,13 @@
 }
 
 .scrolled {
-  background: var(--color-nav-bg);
+  background: rgba(10, 13, 18, 0.72);
   backdrop-filter: blur(12px);
   border-bottom-color: var(--line);
   box-shadow: 0 14px 40px var(--shadow-soft);
   padding-block: 14px;
 }
 
-/* Header over an open overlay: fully transparent so the brand panel shows. */
 .open {
   background: transparent;
   backdrop-filter: none;
@@ -57,9 +56,14 @@
     background var(--duration-fast) var(--ease-smooth);
 }
 
+.themeToggle:hover,
+.toggle:hover,
+.logo:hover {
+  transform: translateY(-1px);
+}
+
 .themeToggle:hover {
   border-color: var(--color-accent);
-  transform: translateY(-1px);
 }
 
 .themeLabel {
@@ -117,7 +121,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: var(--color-surface);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-pill);
   padding: 11px 22px;
@@ -129,10 +133,6 @@
     color var(--duration-fast) var(--ease-smooth),
     background var(--duration-fast) var(--ease-smooth),
     transform var(--duration-fast) var(--ease-smooth);
-}
-
-.toggle:hover {
-  transform: translateY(-1px);
 }
 
 .toggle:hover {

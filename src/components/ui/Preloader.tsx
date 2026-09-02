@@ -93,7 +93,7 @@ export function Preloader() {
               />
               <span className={styles.count}>{count}%</span>
             </div>
-            <span className={styles.caption}>EST. 2025 — BUILDING IDEAS, IMPACT, AND PEOPLE</span>
+            <span className={styles.caption}>EST. 2022 — BUILDING IDEAS, IMPACT, AND PEOPLE</span>
           </div>
         </motion.div>
       )}

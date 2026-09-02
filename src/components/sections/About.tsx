@@ -10,25 +10,36 @@ export function About() {
     <section id="about" className={styles.section} aria-labelledby="about-heading">
       <div className={styles.grid}>
         <Reveal>
-          <Eyebrow>About Us</Eyebrow>
+          <Eyebrow>VivaLaVida</Eyebrow>
         </Reveal>
         <div>
           <Reveal delay={0.05}>
             <h2 id="about-heading" className={styles.heading}>
-              Creating value
+              We build the systems,
               <br />
-              that transforms lives.
+              capabilities and human potential
+              <br />
+              that move organisations forward.
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
             <p className={styles.body}>
-              VivaLaVida bridges innovation, knowledge, and impact to build
-              solutions that empower people and organizations to thrive.
-              Through our three divisions — <strong>Ambidexters</strong>,{' '}
-              <strong>SkillHubs Global</strong>, and{' '}
-              <strong>Impact City</strong> — we deliver practical technology,
-              transformative learning, and purpose-driven growth, connected as
-              one ecosystem.
+              <strong>VivaLaVida</strong> is the parent company that brings
+              together the strategy, partnerships, ventures and integration that
+              make <strong>Ambidexters</strong>, <strong>SkillHubs</strong> and{' '}
+              <strong>ImpactCity</strong> more valuable as one system than they
+              are separately. We are not a wrapper around three brands; we are
+              the operating layer that connects technology, learning and human
+              potential.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className={styles.body}>
+              Our model is simple: <strong>Strategy</strong> ·{' '}
+              <strong>Integration</strong> · <strong>Ventures</strong> ·{' '}
+              <strong>Partnerships</strong>. VivaLaVida shapes the group
+              vision, aligns the opportunities, and creates the conditions for
+              the ecosystem to scale together.
             </p>
           </Reveal>
         </div>

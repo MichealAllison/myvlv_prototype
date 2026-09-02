@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
+import Link from 'next/link';
 
 import { EASE_EXPO } from '@/lib/animation/variants';
 import { useFocusTrap } from '@/lib/useFocusTrap';
@@ -48,6 +49,12 @@ const ITEM: Variants = {
   exit: { y: '115%', opacity: 0, transition: { duration: 0.42, ease: EASE_EXPO } },
 };
 
+const COMPANY_LINKS = [
+  { name: 'Ambidexters', href: '/companies/ambidexters', label: 'Build' },
+  { name: 'SkillHubs', href: '/companies/skillhubs', label: 'Learn' },
+  { name: 'ImpactCity', href: '/companies/impactcity', label: 'Grow' },
+];
+
 /**
  * Full-height overlay menu that slides in from the right over everything,
  * beneath the persistent header. Large stacked type, staggered in/out,
@@ -84,7 +91,7 @@ export function OverlayMenu({ open, items, onSelect, onClose }: OverlayMenuProps
       <div className={styles.inner}>
         <div className={styles.meta}>
           <span>Menu</span>
-          <span>Est. 2025</span>
+          <span>Est. 2022</span>
         </div>
 
         <motion.ul
@@ -113,7 +120,14 @@ export function OverlayMenu({ open, items, onSelect, onClose }: OverlayMenuProps
         </motion.ul>
 
         <div className={styles.foot}>
-          <span>Ambidexters · SkillHubs Global · Impact City</span>
+          <div className={styles.companyLinks} aria-label="Company destinations">
+            {COMPANY_LINKS.map((company) => (
+              <Link key={company.name} href={company.href} className={styles.companyLink} onClick={onClose}>
+                <span>{company.label}</span>
+                <strong>{company.name}</strong>
+              </Link>
+            ))}
+          </div>
           <button
             type="button"
             className={styles.footHint}

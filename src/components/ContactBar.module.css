@@ -4,7 +4,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-xs) var(--space-m);
+  gap: 0.9rem var(--space-m);
   padding: 16px clamp(20px, 4vw, 48px);
   border-top: 1px solid var(--line);
   font-family: var(--font-mono);
@@ -12,6 +12,45 @@
   letter-spacing: 0.08em;
   color: var(--color-muted);
   background: var(--color-bg);
+}
+
+.entryPoints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.entryLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--color-fg);
+  background: rgba(255, 255, 255, 0.02);
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+
+.entryLink:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.entryLabel {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  opacity: 0.75;
+}
+
+.entryName {
+  font-size: 0.7rem;
 }
 
 .mail a {
@@ -41,4 +80,11 @@
 
 .copy {
   color: var(--color-muted);
+}
+
+@media (min-width: 780px) {
+  .entryPoints {
+    width: auto;
+    flex: 1 1 auto;
+  }
 }

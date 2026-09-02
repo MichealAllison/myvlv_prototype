@@ -11,26 +11,27 @@ export const divisions: Division[] = [
   {
     index: '01',
     tag: 'AMBIDEXTERS',
-    name: 'Ambidexters Inc',
-    description: 'Tech-enabled solutions revolutionizing business operations.',
+    name: 'Ambidexters',
+    description:
+      'Technology & Intelligence — AI, digital products, platforms, transformation and business systems.',
     url: 'https://ambidexters.com',
     urlLabel: 'ambidexters.com',
   },
   {
     index: '02',
     tag: 'SKILLHUBS',
-    name: 'SkillHubs Global',
+    name: 'SkillHubs',
     description:
-      'Corporate growth through training, development, and consulting.',
+      'Learning & Capability — professional education, executive development, corporate training and workforce capability.',
     url: 'https://theskillhubs.com',
     urlLabel: 'theskillhubs.com',
   },
   {
     index: '03',
-    tag: 'IMPACT CITY',
-    name: 'Impact City',
+    tag: 'IMPACTCITY',
+    name: 'ImpactCity',
     description:
-      'A safe, inspiring space for personal and professional growth.',
+      'People & Influence — personal development, professional growth, communities, visibility and influence.',
     url: 'https://impact-city.com',
     urlLabel: 'impact-city.com',
   },

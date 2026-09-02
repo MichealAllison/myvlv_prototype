@@ -109,7 +109,7 @@ export function Stage0Gate({ onAdvance }: Stage0GateProps) {
         </motion.div>
 
         <motion.p custom={0.28} variants={loadIn} className={styles.est}>
-          Est. 2025 — Building ideas, impact, and people
+          Est. 2022 — Building ideas, impact, and people
         </motion.p>
 
         <motion.h1 custom={0.42} variants={loadIn} className={styles.title}>
