@@ -8,14 +8,23 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-m);
-  padding: 20px clamp(20px, 4vw, 48px);
-  transition: background var(--duration-base) var(--ease-smooth);
+  padding: 18px clamp(20px, 4vw, 48px);
+  background: color-mix(in srgb, var(--color-bg) 72%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+  transition:
+    background var(--duration-base) var(--ease-smooth),
+    border-color var(--duration-base) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth),
+    padding var(--duration-base) var(--ease-smooth),
+    backdrop-filter var(--duration-base) var(--ease-smooth);
 }
 
 .scrolled {
-  background: rgba(12, 13, 16, 0.82);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
+  background: var(--color-nav-bg);
+  backdrop-filter: blur(12px);
+  border-bottom-color: var(--line);
+  box-shadow: 0 14px 40px var(--shadow-soft);
   padding-block: 14px;
 }
 
@@ -24,6 +33,50 @@
   background: transparent;
   backdrop-filter: none;
   border-bottom: none;
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.themeToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: color-mix(in srgb, var(--color-surface) 72%, transparent);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  color: var(--color-fg);
+  padding: 9px 14px 9px 16px;
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth),
+    background var(--duration-fast) var(--ease-smooth);
+}
+
+.themeToggle:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.themeLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.themeIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
 }
 
 .logo {
@@ -64,7 +117,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: none;
+  background: var(--color-surface);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-pill);
   padding: 11px 22px;
@@ -73,7 +126,13 @@
   overflow: hidden;
   transition:
     border-color var(--duration-fast) var(--ease-smooth),
-    color var(--duration-fast) var(--ease-smooth);
+    color var(--duration-fast) var(--ease-smooth),
+    background var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth);
+}
+
+.toggle:hover {
+  transform: translateY(-1px);
 }
 
 .toggle:hover {

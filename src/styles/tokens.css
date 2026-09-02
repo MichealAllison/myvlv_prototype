@@ -5,20 +5,25 @@
    ============================================================ */
 
 :root {
-  /* ---------- BRAND (placeholder — swap these) ---------- */
+  /* ---------- BRAND (dark default) ---------- */
   --color-bg: #0c0d10;
   --color-bg-alt: #15171c;
   --color-fg: #f5f4f0;
   --color-muted: #9a9ca6;
-  --color-accent: #e302e3;      /* VLV primary — magenta */
-  --color-accent-2: #07c5bc;    /* VLV secondary — teal */
+  --color-accent: #e302e3;
+  --color-accent-2: #07c5bc;
+  --color-surface: #12151b;
+  --color-nav-bg: rgba(12, 13, 16, 0.8);
   --line: rgba(245, 244, 240, 0.13);
   --line-strong: rgba(245, 244, 240, 0.28);
+  --shadow-soft: rgba(4, 6, 10, 0.28);
 
-  /* ---------- TYPE (wired to next/font variables from layout.tsx) ---------- */
-  --font-display: var(--font-display-loaded), Georgia, serif;
-  --font-body: var(--font-body-loaded), system-ui, sans-serif;
-  --font-mono: var(--font-mono-loaded), monospace;
+  color-scheme: dark;
+
+  /* ---------- TYPE (local system stacks to avoid external font fetches) ---------- */
+  --font-display: "Iowan Old Style", "Georgia", "Times New Roman", serif;
+  --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
 
   --text-eyebrow: 0.6875rem;                    /* 11px mono labels */
   --text-sm: 0.875rem;
@@ -66,4 +71,20 @@
   --z-intro: 250;
   /* Custom cursor — above everything on fine-pointer devices. */
   --z-cursor: 300;
+}
+
+html[data-theme='light'] {
+  --color-bg: #f5f1ea;
+  --color-bg-alt: #fdfaf5;
+  --color-fg: #12141a;
+  --color-muted: #58606c;
+  --color-accent: #b21ec7;
+  --color-accent-2: #088d8d;
+  --color-surface: #ffffff;
+  --color-nav-bg: rgba(255, 250, 244, 0.8);
+  --line: rgba(18, 20, 26, 0.12);
+  --line-strong: rgba(18, 20, 26, 0.22);
+  --shadow-soft: rgba(63, 51, 49, 0.12);
+
+  color-scheme: light;
 }
