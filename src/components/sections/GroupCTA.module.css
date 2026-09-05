@@ -1,0 +1,86 @@
+.section {
+  padding: var(--section-pad) clamp(20px, 4vw, 48px);
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.heading {
+  margin-top: var(--space-m);
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  max-width: 780px;
+}
+
+.paths {
+  margin-top: var(--space-xl);
+  display: grid;
+  gap: 1rem;
+}
+
+.path {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.02);
+  color: inherit;
+  transition: border-color var(--duration-fast) var(--ease-smooth), background var(--duration-fast) var(--ease-smooth);
+}
+
+.path:hover {
+  border-color: var(--color-accent);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.action {
+  font-size: clamp(1.3rem, 2vw, 1.9rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.prompt {
+  grid-column: 1 / -1;
+  color: var(--color-muted);
+}
+
+.arrow {
+  grid-column: 2;
+  grid-row: 1;
+  color: var(--color-accent);
+}
+
+.companies {
+  margin-top: var(--space-l);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.companyChip {
+  font-size: 0.8rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--color-muted);
+  transition: border-color var(--duration-fast) var(--ease-smooth), color var(--duration-fast) var(--ease-smooth);
+}
+
+.companyChip:hover {
+  border-color: var(--color-fg);
+  color: var(--color-fg);
+}

@@ -9,7 +9,7 @@ import { EASE_EXPO, EASE_SMOOTH } from '@/lib/animation/variants';
 import styles from './Stage0Gate.module.css';
 
 interface Stage0GateProps {
-  /** Advance gate -> sequence. Fired by CTA click, scroll-down, and swipes. */
+  /** Advance gate -> site. Fired by Enter, CTA click, scroll-down, and swipes. */
   onAdvance: () => void;
 }
 

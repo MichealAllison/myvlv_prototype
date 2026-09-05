@@ -5,23 +5,9 @@ import Link from 'next/link';
 
 import { EASE_EXPO } from '@/lib/animation/variants';
 import { useFocusTrap } from '@/lib/useFocusTrap';
-import type { ViewKey } from '@/lib/view/ViewContext';
+import { COMPANY_ROUTES, SCROLL_NAV } from '@/lib/data/navigation';
 
 import styles from './OverlayMenu.module.css';
-
-export interface MenuItem {
-  key: ViewKey;
-  label: string;
-}
-
-interface OverlayMenuProps {
-  /** Drives the focus trap + whether the panel is considered active. */
-  open: boolean;
-  items: MenuItem[];
-  /** Called with a view key when a menu item is selected. */
-  onSelect: (key: ViewKey) => void;
-  onClose: () => void;
-}
 
 const PANEL_SLIDE: Variants = {
   hidden: { clipPath: 'inset(0 0 0 100%)' },
@@ -49,19 +35,20 @@ const ITEM: Variants = {
   exit: { y: '115%', opacity: 0, transition: { duration: 0.42, ease: EASE_EXPO } },
 };
 
-const COMPANY_LINKS = [
-  { name: 'Ambidexters', href: '/companies/ambidexters', label: 'Build' },
-  { name: 'SkillHubs', href: '/companies/skillhubs', label: 'Learn' },
-  { name: 'ImpactCity', href: '/companies/impactcity', label: 'Grow' },
-];
+interface OverlayMenuProps {
+  /** Drives the focus trap + whether the panel is considered active. */
+  open: boolean;
+  onClose: () => void;
+}
 
 /**
  * Full-height overlay menu that slides in from the right over everything,
- * beneath the persistent header. Large stacked type, staggered in/out,
- * focus-trapped, Esc/backdrop dismissible. Respects prefers-reduced-motion
- * by collapsing the clip-path slide + word rise to a simple opacity fade.
+ * beneath the persistent header. Institutional routes are primary; the three
+ * subsidiary gateways sit in the footer. Focus-trapped, Esc/backdrop
+ * dismissible. Respects prefers-reduced-motion by collapsing the clip-path
+ * slide + word rise to a simple opacity fade.
  */
-export function OverlayMenu({ open, items, onSelect, onClose }: OverlayMenuProps) {
+export function OverlayMenu({ open, onClose }: OverlayMenuProps) {
   const reduced = useReducedMotion();
   const trapRef = useFocusTrap(open, onClose);
 
@@ -101,19 +88,15 @@ export function OverlayMenu({ open, items, onSelect, onClose }: OverlayMenuProps
           animate="show"
           exit="exit"
         >
-          {items.map((item, i) => (
-            <li key={item.key} className={styles.itemWrap}>
+          {SCROLL_NAV.map((item, i) => (
+            <li key={item.id} className={styles.itemWrap}>
               <motion.span className={styles.mask} variants={ITEM}>
-                <button
-                  type="button"
-                  className={styles.item}
-                  onClick={() => onSelect(item.key)}
-                >
+                <Link href={item.href} className={styles.item} onClick={onClose}>
                   <span className={styles.index}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <span className={styles.label}>{item.label}</span>
-                </button>
+                </Link>
               </motion.span>
             </li>
           ))}
@@ -121,20 +104,16 @@ export function OverlayMenu({ open, items, onSelect, onClose }: OverlayMenuProps
 
         <div className={styles.foot}>
           <div className={styles.companyLinks} aria-label="Company destinations">
-            {COMPANY_LINKS.map((company) => (
-              <Link key={company.name} href={company.href} className={styles.companyLink} onClick={onClose}>
+            {COMPANY_ROUTES.map((company) => (
+              <Link key={company.href} href={company.href} className={styles.companyLink} onClick={onClose}>
                 <span>{company.label}</span>
                 <strong>{company.name}</strong>
               </Link>
             ))}
           </div>
-          <button
-            type="button"
-            className={styles.footHint}
-            onClick={() => onSelect('contact')}
-          >
+          <Link href="/contact" className={styles.footHint} onClick={onClose}>
             Get in touch ↓
-          </button>
+          </Link>
         </div>
       </div>
     </motion.div>

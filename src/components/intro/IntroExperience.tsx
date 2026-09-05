@@ -7,30 +7,31 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { EASE_SMOOTH } from '@/lib/animation/variants';
 
 import { Stage0Gate } from './Stage0Gate';
-import { Stage1Sequence } from './Stage1Sequence';
 import { useIntroState } from './useIntroState';
 
 import styles from './IntroExperience.module.css';
 
 /**
- * Top-level state machine for the gated "journey" intro.
+ * Top-level state machine for the gated intro.
  *
- *   boot      -> neutral opaque cover; resolves to gate|site before first paint
- *   gate      -> Stage0Gate (minimal branded CTA)   -> advance on click/scroll
- *   sequence  -> Stage1Sequence (3-division montage)-> auto-advances / skip
- *   site      -> overlay lifts; existing homepage revealed, normal scroll
+ *   boot  -> neutral opaque cover; resolves to gate|site before first paint
+ *   gate  -> Stage0Gate (minimal branded CTA)   -> advance on Enter/click/scroll
+ *   site  -> overlay lifts; main site revealed, normal scroll
  *
- * The existing homepage (passed as `children` from page.tsx) stays mounted for
- * the whole ride. The intro renders as a fixed full-screen overlay on top, so
+ * There is deliberately no intermediate montage: pressing Enter (or clicking /
+ * scrolling) on the gate drops you straight onto the main site.
+ *
+ * The main site (passed as `children` from page.tsx) stays mounted for the
+ * whole ride. The intro renders as a fixed full-screen overlay on top, so
  * reaching the site never remounts or shifts the layout — the overlay simply
- * crossfades away. This is why returning repeat-visitors see no flash: they go
+ * crossfades away. This is why returning-repeat-visitors see no flash: they go
  * straight to `site` in a layout effect, before the browser paints.
  *
  * One animation library is used throughout (Framer Motion, chosen because the
  * app already runs all of its motion through MotionProvider with a global
  * prefers-reduced-motion handler) — no GSAP dependency is added.
  */
-type IntroStage = 'boot' | 'gate' | 'sequence' | 'site';
+type IntroStage = 'boot' | 'gate' | 'site';
 
 const REVEAL_TRANSITION = { duration: 0.6, ease: EASE_SMOOTH };
 
@@ -60,7 +61,6 @@ export function IntroExperience({ children }: { children: ReactNode }) {
     };
   }, [stage]);
 
-  const goSequence = () => setStage('sequence');
   const goSite = () => {
     setStage('site');
     markSeen();
@@ -97,17 +97,7 @@ export function IntroExperience({ children }: { children: ReactNode }) {
                   animate={{ opacity: 1, scale: 1, transition: REVEAL_TRANSITION }}
                   exit={{ opacity: 0, scale: 1.02, transition: REVEAL_TRANSITION }}
                 >
-                  <Stage0Gate onAdvance={goSequence} />
-                </motion.div>
-              )}
-              {stage === 'sequence' && (
-                <motion.div
-                  key="sequence"
-                  initial={{ opacity: 0, scale: 1.02 }}
-                  animate={{ opacity: 1, scale: 1, transition: REVEAL_TRANSITION }}
-                  exit={{ opacity: 0, scale: 1.03, transition: REVEAL_TRANSITION }}
-                >
-                  <Stage1Sequence onComplete={goSite} onSkip={goSite} />
+                  <Stage0Gate onAdvance={goSite} />
                 </motion.div>
               )}
             </AnimatePresence>

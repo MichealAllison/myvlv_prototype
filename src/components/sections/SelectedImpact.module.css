@@ -1,0 +1,113 @@
+.section {
+  padding: var(--section-pad) clamp(20px, 4vw, 48px);
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-m);
+  margin-top: var(--space-xl);
+}
+
+.case {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.4rem, 2.2vw, 2rem);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: transform var(--duration-base) var(--ease-smooth), border-color var(--duration-base) var(--ease-smooth);
+}
+
+.case:hover {
+  transform: translateY(-4px);
+  border-color: var(--line-strong);
+}
+
+.caseHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.tag {
+  color: var(--color-accent);
+}
+
+.company {
+  color: var(--color-muted);
+}
+
+.title {
+  margin-top: 1.4rem;
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.flow {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.row {
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+}
+
+.row dt {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.row dd {
+  margin-top: 0.35rem;
+  line-height: var(--leading-body);
+}
+
+.foot {
+  margin-top: var(--space-l);
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 0.15rem;
+  transition: color var(--duration-fast) var(--ease-smooth), border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.more:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case {
+    transition: none;
+  }
+
+  .case:hover {
+    transform: none;
+  }
+}

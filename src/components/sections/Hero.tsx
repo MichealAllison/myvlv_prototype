@@ -5,7 +5,6 @@ import Link from 'next/link';
 
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { EASE_EXPO, loadInVariant } from '@/lib/animation/variants';
-import { useView } from '@/lib/view/ViewContext';
 
 import styles from './Hero.module.css';
 import btnStyles from '@/components/ui/Button.module.css';
@@ -43,7 +42,6 @@ const splitWord: Variants = {
 };
 
 export function Hero() {
-  const { navigate } = useView();
   let cascade = 0;
 
   return (
@@ -117,13 +115,12 @@ export function Hero() {
             animate="visible"
             custom={0.65}
           >
-            <button
-              type="button"
+            <a
+              href="#ecosystem"
               className={btnStyles.btnPrimary}
-              onClick={() => navigate('ecosystem')}
             >
               Enter the ecosystem <span aria-hidden="true">→</span>
-            </button>
+            </a>
             <Link
               className={btnStyles.btnGhost}
               href="/companies"

@@ -1,0 +1,134 @@
+.section {
+  padding: var(--section-pad) clamp(20px, 4vw, 48px);
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-m);
+  margin-top: var(--space-xl);
+}
+
+.portal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+  padding: clamp(1.4rem, 2.4vw, 2rem);
+  border-radius: 26px;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(160deg, var(--acc-soft), transparent 55%),
+    rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+  transition: transform var(--duration-base) var(--ease-smooth);
+}
+
+.portal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 85% 0%, var(--acc-soft), transparent 60%);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-smooth);
+  pointer-events: none;
+}
+
+.portal:hover {
+  transform: translateY(-6px);
+}
+
+.portal:hover::after {
+  opacity: 1;
+}
+
+.link {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  color: inherit;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.index,
+.eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--acc);
+}
+
+.index {
+  font-family: var(--font-mono);
+  border: 1px solid var(--acc);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  color: var(--acc);
+}
+
+.name {
+  margin-top: clamp(2.4rem, 5vw, 4rem);
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.proposition {
+  margin-top: 1.2rem;
+  max-width: 30ch;
+  color: var(--color-fg);
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.6vw, 1.5rem);
+  line-height: 1.3;
+}
+
+.focus {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.focus li {
+  font-size: 0.78rem;
+  padding: 0.42rem 0.7rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--color-muted);
+}
+
+.cta {
+  margin-top: auto;
+  padding-top: 2rem;
+  font-weight: 600;
+  color: var(--acc);
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal {
+    transition: none;
+  }
+
+  .portal:hover {
+    transform: none;
+  }
+}

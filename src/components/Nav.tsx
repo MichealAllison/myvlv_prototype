@@ -1,19 +1,25 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 import { EASE_EXPO } from '@/lib/animation/variants';
-import { NAV_ITEMS, useView } from '@/lib/view/ViewContext';
 
 import styles from './Nav.module.css';
 import { OverlayMenu } from './OverlayMenu';
 
 type ThemeMode = 'dark' | 'light';
 
+/**
+ * Persistent header for the scroll-journey homepage.
+ * Left: brand (returns to the top of the journey). Right: light/dark toggle
+ * + overlay-menu toggle. The menu routes to the institutional pages
+ * (About, Companies, Work, Thinking, Partner, Careers, Contact) while the
+ * homepage itself remains the long-form journey.
+ */
 export function Nav() {
-  const { navigate } = useView();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [theme, setTheme] = useState<ThemeMode>('dark');
@@ -51,11 +57,6 @@ export function Nav() {
   const navClass = scrolled || open ? `${styles.nav} ${styles.scrolled}` : styles.nav;
   const headerClass = open ? `${navClass} ${styles.open}` : navClass;
 
-  const select = (key: Parameters<typeof navigate>[0]) => {
-    navigate(key);
-    setOpen(false);
-  };
-
   const toggleTheme = () => {
     setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
   };
@@ -63,11 +64,11 @@ export function Nav() {
   return (
     <>
       <nav className={headerClass} aria-label="Main">
-        <button
-          type="button"
+        <Link
+          href="/"
           className={styles.logo}
-          aria-label="VivaLaVida home"
-          onClick={() => select('home')}
+          aria-label="VivaLaVida — back to top"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           <Image
             src="/logo.png"
@@ -79,7 +80,7 @@ export function Nav() {
           <span className={styles.wordmark}>
             Viva<span className={styles.logoAccent}>La</span>Vida
           </span>
-        </button>
+        </Link>
 
         <div className={styles.actions}>
           <button
@@ -122,14 +123,7 @@ export function Nav() {
       </nav>
 
       <AnimatePresence>
-        {open && (
-          <OverlayMenu
-            open
-            items={NAV_ITEMS}
-            onSelect={select}
-            onClose={() => setOpen(false)}
-          />
-        )}
+        {open && <OverlayMenu open onClose={() => setOpen(false)} />}
       </AnimatePresence>
     </>
   );
